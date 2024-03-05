@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $data = json_decode($request->getContent(), true) ?? $request->all();
 
-        User::where('id', $data['user_id'])->update([
+        User::findOrFail($request->get('user_id'))->update([
             'name' => $data['name'],
             'email' => $data['email']
         ]);
@@ -31,8 +31,6 @@ class UserController extends Controller
 
     public function destroy(Request $request)
     {
-        $data = json_decode($request->getContent(), true) ?? $request->all();
-
-        User::where('id', $data['user_id'])->delete();
+        User::findOrFail($request->get('user_id'))->delete();
     }
 }
