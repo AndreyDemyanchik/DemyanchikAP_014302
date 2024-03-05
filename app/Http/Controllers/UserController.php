@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true) ?? $request->all();
 
         User::where('id', $data['user_id'])->update([
             'password' => Hash::make($data['password'])
@@ -31,9 +31,8 @@ class UserController extends Controller
 
     public function destroy(Request $request)
     {
-        //$data = json_decode($request->all(), true);
-        //Storage::put('test/test.json', json_encode(['test' => 'value'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+        $data = json_decode($request->getContent(), true) ?? $request->all();
 
-        //User::where('id', $data['user_id'])->delete();
+        User::where('id', $data['user_id'])->delete();
     }
 }
